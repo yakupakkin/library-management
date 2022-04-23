@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.library.management.dao.ILibraryRepository;
+import com.library.management.dto.BookDTO;
 import com.library.management.model.Book;
 
 @Service
@@ -19,7 +20,7 @@ public class LibraryService implements ILibraryService {
 	@Autowired
 	ILibraryRepository libraryRepository;
 
-	public void save(Book book) {
+	public void save(BookDTO book) {
 		if (book.getId() == null) {
 			Book newbook = new Book();
 			newbook.setAuthor(book.getAuthor());
@@ -30,8 +31,8 @@ public class LibraryService implements ILibraryService {
 			Optional<Book> bookOptional = libraryRepository.findById(book.getId());
 			if (bookOptional.isPresent()) {
 				Book bookUpdate = bookOptional.get();
-				bookUpdate.setName("Java");
-				bookUpdate.setAuthor("Yakup AKKIN");
+				bookUpdate.setName(book.getName());
+				bookUpdate.setAuthor(book.getAuthor());
 				libraryRepository.save(bookUpdate);
 			}
 		}

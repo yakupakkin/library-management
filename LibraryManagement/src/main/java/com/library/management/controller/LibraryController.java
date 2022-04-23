@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.library.management.dto.BookDTO;
 import com.library.management.model.Book;
 import com.library.management.service.ILibraryService;
 
@@ -18,7 +19,7 @@ public class LibraryController {
 	ILibraryService libraryService;
 
 	@PostMapping("/book")
-	public void create(@RequestBody Book book) {
+	public void create(@RequestBody BookDTO book) {
 		libraryService.save(book);
 	}
 

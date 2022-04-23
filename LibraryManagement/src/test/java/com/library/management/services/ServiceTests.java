@@ -17,6 +17,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.library.management.dao.ILibraryRepository;
+import com.library.management.dto.BookDTO;
+import com.library.management.mapper.BookMapper;
 import com.library.management.model.Book;
 import com.library.management.service.LibraryService;
 
@@ -36,10 +38,10 @@ class ServiceTests {
 
 	@Test
 	void testCreateOrSaveBook() {
-		Book book = new Book(1, "Java", "Yakup Akkin");
+		BookDTO book = new BookDTO(1, "Java", "Yakup Akkin");
 
 		libraryService.save(book);
-		verify(libraryRepository, times(1)).save(book);
+		verify(libraryRepository, times(1)).save(BookMapper.INSTANCE.dtoToEntity(book));
 	}
 
 	@Test
