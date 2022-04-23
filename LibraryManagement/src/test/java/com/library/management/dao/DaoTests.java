@@ -20,7 +20,7 @@ class DaoTests {
 
 	@Test
 	void testCreateReadDelete() {
-		Book book = new Book("Java", "Yakup Akkin");
+		Book book = new Book(1, "Java", "Yakup Akkin", false);
 
 		libraryRepository.save(book);
 

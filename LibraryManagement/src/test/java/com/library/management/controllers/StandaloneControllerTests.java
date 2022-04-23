@@ -1,6 +1,7 @@
 package com.library.management.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,7 +19,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.library.management.controller.LibraryController;
-import com.library.management.model.Book;
+import com.library.management.dto.BookDTO;
+import com.library.management.dto.ReaderDTO;
 import com.library.management.service.LibraryService;
 
 @ExtendWith(SpringExtension.class)
@@ -33,12 +35,22 @@ class StandaloneControllerTests {
 
 	@Test
 	void testfindAll() throws Exception {
-		Book book = new Book("Java", "Yakup Akkin");
-		List<Book> books = Arrays.asList(book);
+		BookDTO book = new BookDTO(1, "Java", "Yakup Akkin", false);
+		List<BookDTO> books = Arrays.asList(book);
 
 		Mockito.when(libraryService.findAll()).thenReturn(books);
 
 		mockMvc.perform(get("/api/library/book")).andExpect(status().isOk())
 				.andExpect(jsonPath("$", Matchers.hasSize(1))).andExpect(jsonPath("$[0].name", Matchers.is("Java")));
+	}
+
+	@Test
+	void testBorrowBook() throws Exception {
+		BookDTO bookDTO = new BookDTO(1, "Java", "Yakup Akkin", false);
+		ReaderDTO readerDTO = new ReaderDTO(1, "Yakup", "Akkın", 0);
+		Mockito.when(libraryService.borrowBook(readerDTO.getId(), bookDTO.getId())).thenReturn(bookDTO);
+
+		mockMvc.perform(put("/api/library/reader/{readerId}/{bookId}", 1, 1)).andExpect(status().isOk())
+				.andExpect(jsonPath("$", Matchers.aMapWithSize(4)));
 	}
 }

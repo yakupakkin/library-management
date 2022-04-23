@@ -11,22 +11,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
 @Table
-public class Book {
-
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+public class Reader {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String name;
-	private String author;
-	private boolean reserved;
-
-	public Book(String name, String author, boolean reserved) {
-		this.name = name;
-		this.author = author;
-		this.reserved = reserved;
-	}
+	private String firstName;
+	private String lastName;
+	private int reservedCount;
 }

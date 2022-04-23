@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDTO {
+public class ReaderDTO {
 	private Integer id;
-	private String name;
-	private String author;
-	private boolean reserved;
-
+	private String firstName;
+	private String lastName;
+	private int reservedCount;
 }
