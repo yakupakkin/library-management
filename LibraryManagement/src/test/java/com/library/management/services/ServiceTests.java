@@ -8,6 +8,9 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.library.management.model.Reader;
+import com.library.management.service.ILibraryService;
+import com.library.management.service.IReaderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,8 +27,10 @@ import com.library.management.mapper.BookMapper;
 import com.library.management.mapper.ReaderMapper;
 import com.library.management.model.Book;
 import com.library.management.service.LibraryService;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class ServiceTests {
 
 	@Mock
@@ -62,21 +67,26 @@ class ServiceTests {
 		when(libraryRepository.findAll()).thenReturn(list);
 
 		// test
-		List<BookDTO> bookList = libraryService.findAll();
+		List<BookDTO> bookList =  libraryService.findAll();
 
 		assertEquals(1, bookList.size());
 		verify(libraryRepository, times(1)).findAll();
 	}
 
 	@Test
-	void borrowBook() {
-		BookDTO book = new BookDTO(1, "Java", "Yakup Akkin", true);
+	void testCreateBookReader(){
+		BookDTO book = new BookDTO(1, "Java", "Yakup Akkin", false);
 		ReaderDTO readerDTO = new ReaderDTO(1, "Yakup", "Akkın", 0);
-		libraryService.borrowBook(readerDTO.getId(), book.getId());
+		libraryRepository.save(BookMapper.INSTANCE.dtoToEntity(book));
+		readerRepository.save(ReaderMapper.INSTANCE.dtoToEntity(readerDTO));
 
-		readerRepository.findById(readerDTO.getId());
-		verify(libraryRepository, times(1)).findById(book.getId());
-		verify(readerRepository, times(1)).findById(readerDTO.getId());
+		verify(libraryRepository, times(1)).save(BookMapper.INSTANCE.dtoToEntity(book));
+		verify(readerRepository, times(1)).save(ReaderMapper.INSTANCE.dtoToEntity(readerDTO));
 	}
+	@Test
+	void testBorrowBook() {
 
+		libraryService.borrowBook(1, 1);
+
+	}
 }

@@ -74,7 +74,6 @@ public class LibraryService implements ILibraryService {
 			} else {
 				throw new ReaderNotFoundException("Reader not found or has 2 books already! ");
 			}
-
 		} else {
 			throw new BookNotFoundException("Book not found in library or reserved already!");
 		}
