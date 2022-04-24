@@ -22,6 +22,7 @@ import com.library.management.controller.LibraryController;
 import com.library.management.dto.BookDTO;
 import com.library.management.dto.ReaderDTO;
 import com.library.management.service.LibraryService;
+import com.library.management.service.ReaderService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(LibraryController.class)
@@ -29,6 +30,9 @@ class StandaloneControllerTests {
 
 	@MockBean
 	LibraryService libraryService;
+
+	@MockBean
+	ReaderService readerService;
 
 	@Autowired
 	MockMvc mockMvc;
