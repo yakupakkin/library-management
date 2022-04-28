@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import com.library.management.dto.UserDTO;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.library.management.controller.LibraryController;
 import com.library.management.dto.BookDTO;
-import com.library.management.dto.ReaderDTO;
 import com.library.management.service.LibraryService;
-import com.library.management.service.ReaderService;
+import com.library.management.service.UserService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(LibraryController.class)
@@ -31,30 +31,31 @@ class StandaloneControllerTests {
 	@MockBean
 	LibraryService libraryService;
 
-	@MockBean
-	ReaderService readerService;
-
 	@Autowired
 	MockMvc mockMvc;
 
 	@Test
-	void testfindAll() throws Exception {
+	void testFindAll() throws Exception {
+		//given
 		BookDTO book = new BookDTO(1, "Java", "Yakup Akkin", false);
 		List<BookDTO> books = Arrays.asList(book);
-
+		//when
 		Mockito.when(libraryService.findAll()).thenReturn(books);
-
+		//then
 		mockMvc.perform(get("/api/library/book")).andExpect(status().isOk())
 				.andExpect(jsonPath("$", Matchers.hasSize(1))).andExpect(jsonPath("$[0].name", Matchers.is("Java")));
 	}
 
 	@Test
 	void testBorrowBook() throws Exception {
+		//given
 		BookDTO bookDTO = new BookDTO(1, "Java", "Yakup Akkin", false);
-		ReaderDTO readerDTO = new ReaderDTO(1, "Yakup", "Akkın", 0);
+		UserDTO readerDTO = new UserDTO(1, "Yakup", "Akkın", 0);
+		//when
 		Mockito.when(libraryService.borrowBook(readerDTO.getId(), bookDTO.getId())).thenReturn(bookDTO);
 
-		mockMvc.perform(put("/api/library/reader/{readerId}/{bookId}", 1, 1)).andExpect(status().isOk())
+		//then
+		mockMvc.perform(put("/api/library/user/{userId}/{bookId}", 1, 1)).andExpect(status().isOk())
 				.andExpect(jsonPath("$", Matchers.aMapWithSize(4)));
 	}
 }

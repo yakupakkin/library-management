@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.library.management.dto.UserDTO;
+import com.library.management.mapper.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +20,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.library.management.dao.ILibraryRepository;
-import com.library.management.dao.IReaderRepository;
+import com.library.management.dao.IUserRepository;
 import com.library.management.dto.BookDTO;
-import com.library.management.dto.ReaderDTO;
 import com.library.management.mapper.BookMapper;
-import com.library.management.mapper.ReaderMapper;
 import com.library.management.model.Book;
 import com.library.management.service.LibraryService;
 
@@ -33,7 +33,7 @@ class ServiceTests {
 	@Mock
 	ILibraryRepository libraryRepository;
 	@Mock
-	IReaderRepository readerRepository;
+	IUserRepository userRepository;
 	@InjectMocks
 	LibraryService libraryService;
 
@@ -52,9 +52,9 @@ class ServiceTests {
 
 	@Test
 	void testCreateOrSaveReader() {
-		ReaderDTO reader = new ReaderDTO(1, "Yakup", "Akkin", 0);
-		readerRepository.save(ReaderMapper.INSTANCE.dtoToEntity(reader));
-		verify(readerRepository, times(1)).save(ReaderMapper.INSTANCE.dtoToEntity(reader));
+		UserDTO user = new UserDTO(1, "Yakup", "Akkin", 0);
+		userRepository.save(UserMapper.INSTANCE.dtoToEntity(user));
+		verify(userRepository, times(1)).save(UserMapper.INSTANCE.dtoToEntity(user));
 	}
 
 	@Test
@@ -72,13 +72,15 @@ class ServiceTests {
 
 	@Test
 	void testCreateBookReader() {
+		//given
 		BookDTO book = new BookDTO(1, "Java", "Yakup Akkin", false);
-		ReaderDTO readerDTO = new ReaderDTO(1, "Yakup", "Akkın", 0);
+		UserDTO userDTO = new UserDTO(1, "Yakup", "Akkın", 0);
+		//when
 		libraryRepository.save(BookMapper.INSTANCE.dtoToEntity(book));
-		readerRepository.save(ReaderMapper.INSTANCE.dtoToEntity(readerDTO));
-
+		userRepository.save(UserMapper.INSTANCE.dtoToEntity(userDTO));
+ 		//then
 		verify(libraryRepository, times(1)).save(BookMapper.INSTANCE.dtoToEntity(book));
-		verify(readerRepository, times(1)).save(ReaderMapper.INSTANCE.dtoToEntity(readerDTO));
+		verify(userRepository, times(1)).save(UserMapper.INSTANCE.dtoToEntity(userDTO));
 	}
 
 }

@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReaderDTO {
-	private Integer id;
-	private String firstName;
-	private String lastName;
-	private int reservedCount;
+public class UserDTO {
+    private Integer id;
+    private String firstName;
+    private String lastName;
+    private int reservedCount;
 }
